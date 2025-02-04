@@ -1,0 +1,6 @@
+temp/
+*.ipynb
+.venv/
+__pycache__/
+.devcontainer/
+dev-only/

@@ -1,0 +1,14 @@
+ignore = [
+    ".git/",
+    ".devcontainer/",
+    "dev-only/",
+    ".gitignore",
+    ".python-version",
+    "README.md",
+    "dev-only/",
+    "mugicha.toml",
+    "uv.lock",
+    ".gitattributes",
+]
+show = [
+]

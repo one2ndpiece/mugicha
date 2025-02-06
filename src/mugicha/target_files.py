@@ -1,6 +1,8 @@
 import os
+
 import pathspec
 import toml
+
 
 def load_gitignore(project_root):
     """
@@ -8,12 +10,16 @@ def load_gitignore(project_root):
     そのパターンから pathspec オブジェクトを返します。
     存在しない場合は None を返します。
     """
-    gitignore_path = os.path.join(project_root, '.gitignore')
+    gitignore_path = os.path.join(project_root, ".gitignore")
     if os.path.exists(gitignore_path):
-        with open(gitignore_path, 'r', encoding='utf-8') as f:
+        with open(gitignore_path, "r", encoding="utf-8") as f:
             # 空行やコメント行を除外してパターンを取得
-            patterns = [line.rstrip() for line in f if line.strip() and not line.lstrip().startswith("#")]
-        return pathspec.PathSpec.from_lines('gitwildmatch', patterns)
+            patterns = [
+                line.rstrip()
+                for line in f
+                if line.strip() and not line.lstrip().startswith("#")
+            ]
+        return pathspec.PathSpec.from_lines("gitwildmatch", patterns)
     return None
 
 
@@ -22,24 +28,26 @@ def load_mugicha(project_root):
     プロジェクトルートにある mugicha.toml を読み込み、
     ignore 用と show 用のパターンから pathspec オブジェクトを生成して返します。
     存在しない場合は (None, None) を返します。
-    
+
     mugicha.toml の例:
-    
+
         ignore = ["build/", "tmp/", "*.log"]
         show   = ["tmp/important.log"]
     """
-    mugicha_path = os.path.join(project_root, 'mugicha.toml')
+    mugicha_path = os.path.join(project_root, "mugicha.toml")
     ignore_spec = None
     show_spec = None
     if os.path.exists(mugicha_path):
         try:
             config = toml.load(mugicha_path)
             ignore_patterns = config.get("ignore", [])
-            show_patterns   = config.get("show", [])
+            show_patterns = config.get("show", [])
             if isinstance(ignore_patterns, list) and ignore_patterns:
-                ignore_spec = pathspec.PathSpec.from_lines('gitwildmatch', ignore_patterns)
+                ignore_spec = pathspec.PathSpec.from_lines(
+                    "gitwildmatch", ignore_patterns
+                )
             if isinstance(show_patterns, list) and show_patterns:
-                show_spec = pathspec.PathSpec.from_lines('gitwildmatch', show_patterns)
+                show_spec = pathspec.PathSpec.from_lines("gitwildmatch", show_patterns)
         except Exception as e:
             print(f"mugicha.toml の読み込みエラー: {e}")
     return ignore_spec, show_spec
@@ -89,8 +97,8 @@ def get_target_files(project_root):
     else:
         mugicha_target = set(all_files)
 
-    # 両方のルールで除外されず残ったファイルの共通部分を取得
-    target_files = gitignore_target.intersection(mugicha_target)
+    # 両方のルールで除外されず残ったファイルの和集合を取得
+    target_files = gitignore_target.union(mugicha_target)
 
     # mugicha.toml の show ルールにマッチするファイルを追加（除外ルールを上書き）
     if mugicha_show_spec:

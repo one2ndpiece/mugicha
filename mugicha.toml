@@ -5,10 +5,9 @@ ignore = [
     ".gitignore",
     ".python-version",
     "README.md",
-    "dev-only/",
     "mugicha.toml",
     "uv.lock",
     ".gitattributes",
+    "dist/",
 ]
-show = [
-]
+show = []

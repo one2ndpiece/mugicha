@@ -74,31 +74,26 @@ def get_target_files(project_root):
         → 全ファイル集合から、.gitignore のパターンにマッチするファイルを除外
     ・mugicha.toml の ignore ルールによる除外を反映して対象となるファイルのリストを取得します。
         → 全ファイル集合から、mugicha の ignore パターンにマッチするファイルを除外
-    ・上記2つのルールの結果の共通部分（AND）を対象ファイルとします。
+    ・上記2つのルールの結果のORを対象ファイルとします。
     ・さらに、mugicha.toml の show ルールにマッチするファイルを追加します。
     """
     all_files = get_all_files(project_root)
 
     # .gitignore の場合:
     gitignore_spec = load_gitignore(project_root)
+    excluded_files = set()  # ここを set() に変更
     if gitignore_spec:
         # .gitignore にマッチするファイル（除外対象）
         gitignore_excluded = set(gitignore_spec.match_files(all_files))
-        # 除外対象を引いたファイル群
-        gitignore_target = set(all_files) - gitignore_excluded
-    else:
-        gitignore_target = set(all_files)
+        excluded_files.update(gitignore_excluded)  # += ではなく update を使う
 
     # mugicha.toml の ignore の場合:
     mugicha_ignore_spec, mugicha_show_spec = load_mugicha(project_root)
     if mugicha_ignore_spec:
         mugicha_excluded = set(mugicha_ignore_spec.match_files(all_files))
-        mugicha_target = set(all_files) - mugicha_excluded
-    else:
-        mugicha_target = set(all_files)
+        excluded_files.update(mugicha_excluded)  # または .union(mugicha_excluded)
 
-    # 両方のルールで除外されず残ったファイルの和集合を取得
-    target_files = gitignore_target.union(mugicha_target)
+    target_files = set(all_files) - excluded_files
 
     # mugicha.toml の show ルールにマッチするファイルを追加（除外ルールを上書き）
     if mugicha_show_spec:

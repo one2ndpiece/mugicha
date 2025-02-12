@@ -85,13 +85,13 @@ def get_target_files(project_root):
     if gitignore_spec:
         # .gitignore にマッチするファイル（除外対象）
         gitignore_excluded = set(gitignore_spec.match_files(all_files))
-        excluded_files.update(gitignore_excluded)  # += ではなく update を使う
+        excluded_files.update(gitignore_excluded)
 
     # mugicha.toml の ignore の場合:
     mugicha_ignore_spec, mugicha_show_spec = load_mugicha(project_root)
     if mugicha_ignore_spec:
         mugicha_excluded = set(mugicha_ignore_spec.match_files(all_files))
-        excluded_files.update(mugicha_excluded)  # または .union(mugicha_excluded)
+        excluded_files.update(mugicha_excluded)
 
     target_files = set(all_files) - excluded_files
 

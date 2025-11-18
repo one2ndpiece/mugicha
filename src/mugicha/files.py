@@ -1,7 +1,7 @@
 import os
 
 
-def get_files_content(project_dir, file_paths):
+def get_files_content(project_dir: str, file_paths: list[str]) -> str:
     """
     プロジェクトディレクトリと、プロジェクトディレクトリからの相対パスのリストを受け取り、
     各ファイルの内容を以下の形式でひとつの文字列として返します。

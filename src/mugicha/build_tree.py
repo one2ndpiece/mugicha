@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import os
+from typing import Any
 
 
 def build_json_directory(root: str, file_list: list[str]) -> dict:
@@ -52,7 +55,7 @@ def build_json_directory(root: str, file_list: list[str]) -> dict:
                 current = current[part]
 
     # 内部ツリー構造を目的の形式に変換するためのヘルパー関数
-    def convert_node(node):
+    def convert_node(node: dict[str, Any]) -> list[str | dict[str, Any]]:
         items = []
         for key in sorted(node.keys()):
             value = node[key]

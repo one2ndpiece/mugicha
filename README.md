@@ -5,6 +5,9 @@ pip install pathspec toml
 ```
 
 # Quick Start
+```bash
+uv add --dev git+https://github.com/one2ndpiece/mugicha.git
+```
 
 ```bash
 git clone https://github.com/one2ndpiece/mugicha.git

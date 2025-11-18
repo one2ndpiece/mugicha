@@ -3,7 +3,7 @@ import os
 
 def build_json_directory(root: str, file_list: list[str]) -> dict:
     """
-    root: ルートディレクトリの名前（例："mugicha"）
+    root: ルートディレクトリの名前(例:"mugicha")
     file_list: ルート以下のファイル・ディレクトリの相対パス一覧
             ディレクトリは末尾に "/" が付いているものとする
             例:
@@ -62,5 +62,5 @@ def build_json_directory(root: str, file_list: list[str]) -> dict:
                 items.append({key + '/': convert_node(value)})
         return items
 
-    # ルートディレクトリをキー（末尾に "/" を付ける）とする
+    # ルートディレクトリをキー(末尾に "/" を付ける)とする
     return {base_root + '/': convert_node(tree)}

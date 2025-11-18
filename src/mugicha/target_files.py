@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 from collections.abc import Iterable
 
@@ -22,7 +24,7 @@ def load_gitignore(project_root: str):
     return None
 
 
-def load_mugicha(project_root: str):
+def load_mugicha(project_root: str) -> tuple[pathspec.PathSpec | None, pathspec.PathSpec | None]:
     """
     プロジェクトルートにある mugicha.toml を読み込み、
     ignore 用と show 用のパターンから pathspec オブジェクトを生成して返します。

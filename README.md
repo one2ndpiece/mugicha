@@ -1,30 +1,9 @@
 mugicha
-# Prepare
-```bash
-pip install pathspec toml
-```
-
-# Quick Start
+# installation
 ```bash
 uv add --dev git+https://github.com/one2ndpiece/mugicha.git
 ```
 
-```bash
-git clone https://github.com/one2ndpiece/mugicha.git
-```
-execute mugicha
-```bash
-cd mugicha
-python -m run src/mugicha/__init__.py
-```
-
-# mugicha Install
-whlファイルは適切なものをダウンロードしてください。
-```bash
-git clone https://github.com/one2ndpiece/mugicha.git
-cd mugicha
-pip install dist/mugicha-0.0.1-py3-none-any.whl
-```
 
 # mugicha.toml
 mugicha.toml は以下のように設定してください。
